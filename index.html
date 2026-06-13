@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Maverik Prompt Lab — 50 AI UGC Prompts</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --ink: #0D0D12;
+  --surface: #14141A;
+  --card: #1A1A22;
+  --border: #26262F;
+  --text: #E4E4EE;
+  --muted: #6A6A82;
+  --gold: #F5A623;
+  --gold-soft: rgba(245,166,35,0.12);
+  --green: #39FF14;
+  --green-soft: rgba(57,255,20,0.1);
+  --purple: #A855F7;
+  --purple-soft: rgba(168,85,247,0.1);
+  --blue: #38BDF8;
+  --blue-soft: rgba(56,189,248,0.1);
+  --coral: #FB7185;
+  --coral-soft: rgba(251,113,133,0.1);
+  --teal: #2DD4BF;
+  --teal-soft: rgba(45,212,191,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ====== HERO ====== */
+.hero {
+  background: linear-gradient(160deg, #0D0D12 0%, #160f22 50%, #0D0D12 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 52px 24px 44px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 45% at 50% 0%, rgba(168,85,247,0.14) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--purple);
+  border: 1px solid rgba(168,85,247,0.3);
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(30px, 6vw, 56px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.08;
+  margin-bottom: 14px;
+}
+.hero h1 .accent { color: var(--gold); }
+.hero p {
+  color: var(--muted);
+  font-size: 14px;
+  max-width: 500px;
+  margin: 0 auto 28px;
+}
+.stat-row {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gold);
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ====== CONTROLS ====== */
+.controls {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,13,18,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.filter-btn:hover { border-color: var(--text); color: var(--text); }
+.filter-btn.active { color: #000; }
+.filter-btn[data-niche="all"].active { background: var(--gold); border-color: var(--gold); color: #000; }
+.filter-btn[data-niche="skincare"].active { background: var(--coral); border-color: var(--coral); }
+.filter-btn[data-niche="wellness"].active { background: var(--teal); border-color: var(--teal); }
+.filter-btn[data-niche="saas"].active { background: var(--blue); border-color: var(--blue); }
+.filter-btn[data-niche="income"].active { background: var(--green); border-color: var(--green); }
+.filter-btn[data-niche="ai"].active { background: var(--purple); border-color: var(--purple); }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot-skincare { background: var(--coral); }
+.dot-wellness { background: var(--teal); }
+.dot-saas { background: var(--blue); }
+.dot-income { background: var(--green); }
+.dot-ai { background: var(--purple); }
+
+.search-wrap {
+  margin-left: auto;
+  position: relative;
+}
+.search-wrap input {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 7px 16px 7px 36px;
+  color: var(--text);
+  width: 200px;
+  outline: none;
+  transition: border 0.15s;
+}
+.search-wrap input:focus { border-color: var(--purple); }
+.search-wrap input::placeholder { color: var(--muted); }
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* ====== MAIN GRID ====== */
+.container { max-width: 1100px; margin: 0 auto; padding: 36px 20px 60px; }
+
+.niche-section { margin-bottom: 44px; }
+.niche-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.niche-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.niche-header h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+}
+.niche-header .niche-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+.niche-count {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* color overrides per niche */
+.niche-skincare .niche-icon { background: var(--coral-soft); }
+.niche-skincare .niche-header h2 { color: var(--coral); }
+.niche-skincare .niche-count { background: var(--coral-soft); color: var(--coral); }
+.niche-wellness .niche-icon { background: var(--teal-soft); }
+.niche-wellness .niche-header h2 { color: var(--teal); }
+.niche-wellness .niche-count { background: var(--teal-soft); color: var(--teal); }
+.niche-saas .niche-icon { background: var(--blue-soft); }
+.niche-saas .niche-header h2 { color: var(--blue); }
+.niche-saas .niche-count { background: var(--blue-soft); color: var(--blue); }
+.niche-income .niche-icon { background: var(--green-soft); }
+.niche-income .niche-header h2 { color: var(--green); }
+.niche-income .niche-count { background: var(--green-soft); color: var(--green); }
+.niche-ai .niche-icon { background: var(--purple-soft); }
+.niche-ai .niche-header h2 { color: var(--purple); }
+.niche-ai .niche-count { background: var(--purple-soft); color: var(--purple); }
+
+/* ====== PROMPT CARDS ====== */
+.prompt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+.prompt-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  position: relative;
+  transition: border-color 0.15s, transform 0.12s;
+  cursor: default;
+}
+.prompt-card:hover {
+  border-color: rgba(168,85,247,0.4);
+  transform: translateY(-2px);
+}
+.prompt-card.hidden { display: none; }
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.prompt-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+.format-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.ft-video  { background: rgba(56,189,248,0.12); color: var(--blue); }
+.ft-caption { background: rgba(168,85,247,0.12); color: var(--purple); }
+.ft-hook   { background: rgba(245,166,35,0.12); color: var(--gold); }
+.ft-script  { background: rgba(57,255,20,0.1); color: var(--green); }
+.ft-voiceover { background: rgba(251,113,133,0.12); color: var(--coral); }
+
+.prompt-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--text);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  user-select: all;
+}
+.prompt-text .bracket { color: var(--gold); font-weight: 600; }
+.prompt-text .keyword { color: var(--purple); }
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.use-case {
+  font-size: 11px;
+  color: var(--muted);
+  flex: 1;
+}
+.copy-btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.copy-btn:hover { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); }
+.copy-btn.copied { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+
+/* ====== LEGEND ====== */
+.legend {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+.legend-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 4px;
+}
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text);
+}
+
+/* ====== EMPTY STATE ====== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  display: none;
+}
+.empty-state.show { display: block; }
+.empty-state p { font-size: 15px; margin-top: 10px; }
+
+/* ====== FOOTER ====== */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+.footer strong { color: var(--gold); }
+
+@media (max-width: 600px) {
+  .search-wrap input { width: 150px; }
+  .stat-row { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">✦ The Maverik Prompt Lab</div>
+  <h1>50 <span class="accent">AI UGC Prompts</span><br>Built to Convert</h1>
+  <p>Copy, paste, and post. Every prompt is niche-tested, faceless-creator ready, and built around the Maverik Content OS Method.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-num">50</div><div class="stat-label">Prompts</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Niches</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Formats</div></div>
+    <div class="stat"><div class="stat-num">0</div><div class="stat-label">Face needed</div></div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button class="filter-btn active" data-niche="all" onclick="filterNiche('all',this)">All 50</button>
+  <button class="filter-btn" data-niche="skincare" onclick="filterNiche('skincare',this)"><span class="dot dot-skincare"></span>Skincare</button>
+  <button class="filter-btn" data-niche="wellness" onclick="filterNiche('wellness',this)"><span class="dot dot-wellness"></span>Wellness</button>
+  <button class="filter-btn" data-niche="saas" onclick="filterNiche('saas',this)"><span class="dot dot-saas"></span>SaaS</button>
+  <button class="filter-btn" data-niche="income" onclick="filterNiche('income',this)"><span class="dot dot-income"></span>Income</button>
+  <button class="filter-btn" data-niche="ai" onclick="filterNiche('ai',this)"><span class="dot dot-ai"></span>AI Tools</button>
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="text" id="searchInput" placeholder="Search prompts…" oninput="searchPrompts(this.value)">
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <span class="legend-title">Format Key</span>
+    <div class="legend-items">
+      <span class="legend-item"><span class="format-tag ft-video">Video</span> AI avatar/visual prompt</span>
+      <span class="legend-item"><span class="format-tag ft-hook">Hook</span> Opening line only</span>
+      <span class="legend-item"><span class="format-tag ft-script">Script</span> Full voiceover script</span>
+      <span class="legend-item"><span class="format-tag ft-caption">Caption</span> Post caption text</span>
+      <span class="legend-item"><span class="format-tag ft-voiceover">Voiceover</span> ElevenLabs-ready audio</span>
+    </div>
+  </div>
+
+  <div id="emptyState" class="empty-state">
+    <div style="font-size:36px">🔍</div>
+    <p>No prompts match that search. Try a different keyword.</p>
+  </div>
+
+  <!-- ==================== NICHE 1: SKINCARE ==================== -->
+  <div class="niche-section niche-skincare" data-niche="skincare">
+    <div class="niche-header">
+      <div class="niche-icon">🌿</div>
+      <div>
+        <h2>Skincare & Beauty</h2>
+        <div class="niche-sub">Affiliate-ready prompts for skincare routines, product reviews & glow-up content</div>
+      </div>
+      <span class="niche-count">10 prompts</span>
+    </div>
+    <div class="prompt-grid">
+
+      <div class="prompt-card" data-niche="skincare" data-text="create a realistic ai avatar of a woman applying a lightweight serum at her bathroom vanity in soft morning light, skin visibly glowing, no face shown — focus on hands and neck area only, aesthetic and minimal">
+        <div class="card-top"><span class="prompt-num">#01</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">create a realistic <span class="keyword">ai avatar</span> of a woman applying a lightweight serum at her bathroom vanity in soft morning light, skin visibly glowing, no face shown — focus on hands and neck area only, aesthetic and minimal</div>
+        <div class="card-footer"><span class="use-case">Use for: serum affiliate links, skincare brand collabs</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="write a 30-second voiceover script for a faceless skincare video: hook is 'this one ingredient cleared my skin in 14 days', reveal the ingredient [PRODUCT], show before-skin vs after-skin transformation, end with call to action to tap link in bio">
+        <div class="card-top"><span class="prompt-num">#02</span><span class="format-tag ft-voiceover">Voiceover</span></div>
+        <div class="prompt-text">write a 30-second voiceover script for a faceless skincare video: hook is 'this one ingredient cleared my skin in 14 days', reveal the ingredient <span class="bracket">[PRODUCT]</span>, show before-skin vs after-skin transformation, end with call to action to tap link in bio</div>
+        <div class="card-footer"><span class="use-case">Use for: ElevenLabs, CapCut voiceover track</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="generate an ai product flat lay: a dropper bottle of vitamin c serum beside a sliced orange, dewy white marble surface, soft side lighting, no text, ultra clean aesthetic, lifestyle shot">
+        <div class="card-top"><span class="prompt-num">#03</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an ai product flat lay: a dropper bottle of <span class="keyword">vitamin c serum</span> beside a sliced orange, dewy white marble surface, soft side lighting, no text, ultra clean aesthetic, lifestyle shot</div>
+        <div class="card-footer"><span class="use-case">Use for: product content, Amazon affiliate posts</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="write a tiktok caption for a skincare routine video. tone: honest, relatable, not salesy. format: one short hook sentence, 3 bullet points naming the products used [INSERT PRODUCTS], one line ending with 'link in bio for exact products ✨'">
+        <div class="card-top"><span class="prompt-num">#04</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write a tiktok caption for a skincare routine video. tone: honest, relatable, not salesy. format: one short hook sentence, 3 bullet points naming the products used <span class="bracket">[INSERT PRODUCTS]</span>, one line ending with 'link in bio for exact products ✨'</div>
+        <div class="card-footer"><span class="use-case">Use for: TikTok, Instagram Reels captions</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="create a stop-motion style ai animation of skincare products arranging themselves on a bathroom shelf: cleanser, toner, spf. soft pastel background, no human present, satisfying and aesthetic, 6 seconds looping">
+        <div class="card-top"><span class="prompt-num">#05</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">create a stop-motion style <span class="keyword">ai animation</span> of skincare products arranging themselves on a bathroom shelf: cleanser, toner, spf. soft pastel background, no human present, satisfying and aesthetic, 6 seconds looping</div>
+        <div class="card-footer"><span class="use-case">Use for: reels, shorts, Pinterest video pin</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="write 5 scroll-stopping tiktok hooks for a video about [SKINCARE PRODUCT]. each hook must be under 8 words, create curiosity, and NOT start with 'I'. format: numbered list">
+        <div class="card-top"><span class="prompt-num">#06</span><span class="format-tag ft-hook">Hook</span></div>
+        <div class="prompt-text">write 5 scroll-stopping tiktok hooks for a video about <span class="bracket">[SKINCARE PRODUCT]</span>. each hook must be under 8 words, create curiosity, and NOT start with 'I'. format: numbered list</div>
+        <div class="card-footer"><span class="use-case">Use for: batch creating hook variations to A/B test</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="generate a faceless ai ugc-style video concept: hands unboxing a skincare product, close-up of opening seal, dispensing product onto fingers, applying to forearm skin, golden hour window light, relaxed pace, no music cue needed">
+        <div class="card-top"><span class="prompt-num">#07</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate a <span class="keyword">faceless ai ugc</span>-style video concept: hands unboxing a skincare product, close-up of opening seal, dispensing product onto fingers, applying to forearm skin, golden hour window light, relaxed pace, no music cue needed</div>
+        <div class="card-footer"><span class="use-case">Use for: unboxing UGC, brand deal pitches</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="write a full 45-second script for a faceless skincare tiktok. structure: hook (problem: oily skin), agitate (what doesn't work), solution reveal [PRODUCT NAME], 3 specific benefits, cta. tone: gen z casual but informed">
+        <div class="card-top"><span class="prompt-num">#08</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">write a full 45-second script for a faceless skincare tiktok. structure: hook (problem: oily skin), agitate (what doesn't work), solution reveal <span class="bracket">[PRODUCT NAME]</span>, 3 specific benefits, cta. tone: gen z casual but informed</div>
+        <div class="card-footer"><span class="use-case">Use for: full video scripts, ElevenLabs batch</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="create an ai image: a minimalist skincare shelfie, 3 glass bottles, eucalyptus sprig, soft neutral tones, natural linen background, shot from above, magazine editorial quality, no branding visible">
+        <div class="card-top"><span class="prompt-num">#09</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">create an ai image: a minimalist <span class="keyword">skincare shelfie</span>, 3 glass bottles, eucalyptus sprig, soft neutral tones, natural linen background, shot from above, magazine editorial quality, no branding visible</div>
+        <div class="card-footer"><span class="use-case">Use for: Pinterest pins, Instagram grid filler</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="skincare" data-text="write a product comparison carousel caption: [PRODUCT A] vs [PRODUCT B] for dry skin. format: opening hook, 4 comparison points (texture, scent, results speed, price), final verdict, hashtag row with 5 tags">
+        <div class="card-top"><span class="prompt-num">#10</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write a product comparison carousel caption: <span class="bracket">[PRODUCT A]</span> vs <span class="bracket">[PRODUCT B]</span> for dry skin. format: opening hook, 4 comparison points (texture, scent, results speed, price), final verdict, hashtag row with 5 tags</div>
+        <div class="card-footer"><span class="use-case">Use for: carousel posts, affiliate comparison content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== NICHE 2: WELLNESS ==================== -->
+  <div class="niche-section niche-wellness" data-niche="wellness">
+    <div class="niche-header">
+      <div class="niche-icon">🧘</div>
+      <div>
+        <h2>Health & Wellness</h2>
+        <div class="niche-sub">Mind, body, supplements, routines — high-trust content that converts</div>
+      </div>
+      <span class="niche-count">10 prompts</span>
+    </div>
+    <div class="prompt-grid">
+
+      <div class="prompt-card" data-niche="wellness" data-text="write a 30-second tiktok voiceover script promoting a magnesium supplement. hook: 'if you wake up tired no matter how long you sleep, this is why'. explain magnesium deficiency in simple terms, introduce [PRODUCT], end with 'link in bio'. no medical claims">
+        <div class="card-top"><span class="prompt-num">#11</span><span class="format-tag ft-voiceover">Voiceover</span></div>
+        <div class="prompt-text">write a 30-second tiktok voiceover script promoting a <span class="keyword">magnesium supplement</span>. hook: 'if you wake up tired no matter how long you sleep, this is why'. explain magnesium deficiency in simple terms, introduce <span class="bracket">[PRODUCT]</span>, end with 'link in bio'. no medical claims</div>
+        <div class="card-footer"><span class="use-case">Use for: supplement affiliate, Amazon health</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="generate an ai video concept: a morning routine montage from first-person view, no face shown — alarm goes off, hands wrap around a warm mug, journal opens, window light streams in, 8 seconds, calm and aspirational">
+        <div class="card-top"><span class="prompt-num">#12</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an <span class="keyword">ai video concept</span>: a morning routine montage from first-person view, no face shown — alarm goes off, hands wrap around a warm mug, journal opens, window light streams in, 8 seconds, calm and aspirational</div>
+        <div class="card-footer"><span class="use-case">Use for: lifestyle B-roll, habit content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="write 5 hooks for a wellness video about [TOPIC: sleep/gut health/stress]. each under 10 words. one must use a surprising statistic, one must be a relatable confession, one must be a direct question to the viewer">
+        <div class="card-top"><span class="prompt-num">#13</span><span class="format-tag ft-hook">Hook</span></div>
+        <div class="prompt-text">write 5 hooks for a wellness video about <span class="bracket">[TOPIC: sleep/gut health/stress]</span>. each under 10 words. one must use a surprising statistic, one must be a relatable confession, one must be a direct question to the viewer</div>
+        <div class="card-footer"><span class="use-case">Use for: testing hooks before batch filming</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="create a full 60-second script for a faceless wellness video: topic is 'your gut is your second brain'. structure: shocking hook stat, 3 signs your gut health is off, introduce [PROBIOTIC PRODUCT] as solution, 2 benefits, cta. conversational, not clinical">
+        <div class="card-top"><span class="prompt-num">#14</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">create a full 60-second script for a faceless wellness video: topic is 'your gut is your second brain'. structure: shocking hook stat, 3 signs your gut health is off, introduce <span class="bracket">[PROBIOTIC PRODUCT]</span> as solution, 2 benefits, cta. conversational, not clinical</div>
+        <div class="card-footer"><span class="use-case">Use for: health affiliate content, long-form TikTok</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="generate an ai image: a flatlay of a wellness morning setup — glass of water, vitamin bottles, journal, pen, green plant, soft warm light, top-down angle, no text, earthy tones, clean and aspirational">
+        <div class="card-top"><span class="prompt-num">#15</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an ai image: a flatlay of a <span class="keyword">wellness morning setup</span> — glass of water, vitamin bottles, journal, pen, green plant, soft warm light, top-down angle, no text, earthy tones, clean and aspirational</div>
+        <div class="card-footer"><span class="use-case">Use for: Pinterest, Instagram grid, digital product cover</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="write an instagram caption for a post about building a consistent sleep routine. tone: supportive, not preachy. format: 2-sentence hook, 3 practical tips, question to encourage comments, 5 hashtags. mention [SLEEP PRODUCT] naturally in tip 2">
+        <div class="card-top"><span class="prompt-num">#16</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write an instagram caption for a post about building a consistent sleep routine. tone: supportive, not preachy. format: 2-sentence hook, 3 practical tips, question to encourage comments, 5 hashtags. mention <span class="bracket">[SLEEP PRODUCT]</span> naturally in tip 2</div>
+        <div class="card-footer"><span class="use-case">Use for: Instagram, affiliate natural mention</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="create an ai avatar video concept: a woman's hands preparing a matcha latte in a cozy kitchen, no face shown, green powder swirling in milk, golden steam rising, slow mo, 10 seconds, aesthetic and calming">
+        <div class="card-top"><span class="prompt-num">#17</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">create an <span class="keyword">ai avatar video concept</span>: a woman's hands preparing a matcha latte in a cozy kitchen, no face shown, green powder swirling in milk, golden steam rising, slow mo, 10 seconds, aesthetic and calming</div>
+        <div class="card-footer"><span class="use-case">Use for: wellness lifestyle B-roll content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="write a tiktok script for a 'what i take every morning' faceless video. products: [LIST 3 SUPPLEMENTS]. for each product: one sentence what it does, one sentence personal benefit. hook first, cta last. under 45 seconds">
+        <div class="card-top"><span class="prompt-num">#18</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">write a tiktok script for a 'what i take every morning' faceless video. products: <span class="bracket">[LIST 3 SUPPLEMENTS]</span>. for each product: one sentence what it does, one sentence personal benefit. hook first, cta last. under 45 seconds</div>
+        <div class="card-footer"><span class="use-case">Use for: supplement stacks, Mavely affiliate links</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="generate 5 tiktok hooks about stress management. one must reference cortisol, one must reference a common habit people don't know is stressful, one must be counter-intuitive. all under 8 words">
+        <div class="card-top"><span class="prompt-num">#19</span><span class="format-tag ft-hook">Hook</span></div>
+        <div class="prompt-text">generate 5 tiktok hooks about <span class="keyword">stress management</span>. one must reference cortisol, one must reference a common habit people don't know is stressful, one must be counter-intuitive. all under 8 words</div>
+        <div class="card-footer"><span class="use-case">Use for: mental wellness niche, high-save content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="wellness" data-text="write a pinterest pin description for a post titled '10 habits that changed my life in 30 days'. tone: inspiring but real. 3-sentence body, include [AFFILIATE PRODUCT] as habit #4 naturally, end with 'save this for when you need a reset'">
+        <div class="card-top"><span class="prompt-num">#20</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write a pinterest pin description for a post titled '10 habits that changed my life in 30 days'. tone: inspiring but real. 3-sentence body, include <span class="bracket">[AFFILIATE PRODUCT]</span> as habit #4 naturally, end with 'save this for when you need a reset'</div>
+        <div class="card-footer"><span class="use-case">Use for: Pinterest SEO, Gogopin Pro pin content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== NICHE 3: SaaS ==================== -->
+  <div class="niche-section niche-saas" data-niche="saas">
+    <div class="niche-header">
+      <div class="niche-icon">💻</div>
+      <div>
+        <h2>SaaS & Productivity Tools</h2>
+        <div class="niche-sub">Software reviews, tool demos & productivity content that drives signups</div>
+      </div>
+      <span class="niche-count">10 prompts</span>
+    </div>
+    <div class="prompt-grid">
+
+      <div class="prompt-card" data-niche="saas" data-text="write a 30-second tiktok voiceover script reviewing [SAAS TOOL]. hook: 'i replaced 3 apps with this one tool'. structure: problem (too many apps), solution (tool name), 3 specific features that save time, cta to try free trial via link in bio">
+        <div class="card-top"><span class="prompt-num">#21</span><span class="format-tag ft-voiceover">Voiceover</span></div>
+        <div class="prompt-text">write a 30-second tiktok voiceover script reviewing <span class="bracket">[SAAS TOOL]</span>. hook: 'i replaced 3 apps with this one tool'. structure: problem (too many apps), solution (tool name), 3 specific features that save time, cta to try free trial via link in bio</div>
+        <div class="card-footer"><span class="use-case">Use for: SaaS affiliate, ElevenLabs AI voice</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="generate an ai screen recording concept: a laptop screen showing a dashboard of [TOOL NAME], cursor moving smoothly between features, dark mode interface, no face in frame, hand occasionally clicks mouse, clean desk background, 12 seconds">
+        <div class="card-top"><span class="prompt-num">#22</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an <span class="keyword">ai screen recording concept</span>: a laptop screen showing a dashboard of <span class="bracket">[TOOL NAME]</span>, cursor moving smoothly between features, dark mode interface, no face in frame, hand occasionally clicks mouse, clean desk background, 12 seconds</div>
+        <div class="card-footer"><span class="use-case">Use for: software review content, demo-style UGC</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="write 5 hooks for a video about [SAAS TOOL]. must include: one 'secret tool' hook, one time-saving hook with a number, one 'you're doing it wrong' hook. all under 9 words">
+        <div class="card-top"><span class="prompt-num">#23</span><span class="format-tag ft-hook">Hook</span></div>
+        <div class="prompt-text">write 5 hooks for a video about <span class="bracket">[SAAS TOOL]</span>. must include: one 'secret tool' hook, one time-saving hook with a number, one 'you're doing it wrong' hook. all under 9 words</div>
+        <div class="card-footer"><span class="use-case">Use for: A/B testing hooks before posting</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="write an instagram caption for a productivity tool post. tool: [NAME]. format: one bold opener stat about wasted time, 3 bullet points on what the tool does, one line social proof (user count or rating if known), cta with link in bio, 4 hashtags">
+        <div class="card-top"><span class="prompt-num">#24</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write an instagram caption for a productivity tool post. tool: <span class="bracket">[NAME]</span>. format: one bold opener stat about wasted time, 3 bullet points on what the tool does, one line social proof (user count or rating if known), cta with link in bio, 4 hashtags</div>
+        <div class="card-footer"><span class="use-case">Use for: SaaS affiliate Instagram posts</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="create a full 60-second script for a faceless 'tool i use every day' video. tool: [SAAS NAME]. structure: hook (time saved), what the problem was before this tool, 4 features as mini demos described in words, price mention (free tier if available), link in bio cta">
+        <div class="card-top"><span class="prompt-num">#25</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">create a full 60-second script for a faceless 'tool i use every day' video. tool: <span class="bracket">[SAAS NAME]</span>. structure: hook (time saved), what the problem was before this tool, 4 features as mini demos described in words, price mention (free tier if available), link in bio cta</div>
+        <div class="card-footer"><span class="use-case">Use for: deep-dive SaaS review videos</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="generate an ai image: a minimal home office desk from above — open laptop showing a clean dashboard interface, one notebook, single pen, black coffee, no clutter. concept: focus and flow state. earthy tones, no branding">
+        <div class="card-top"><span class="prompt-num">#26</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an ai image: a minimal home office desk from above — open laptop showing a clean <span class="keyword">dashboard interface</span>, one notebook, single pen, black coffee, no clutter. concept: focus and flow state. earthy tones, no branding</div>
+        <div class="card-footer"><span class="use-case">Use for: productivity content thumbnails, Pinterest</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="write a tiktok/youtube shorts script: 'i tested [TOOL] for 30 days — honest review'. structure: 10-second hook with result, what i expected vs what actually happened, 3 pros, 1 honest con, final verdict, cta. under 60 seconds">
+        <div class="card-top"><span class="prompt-num">#27</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">write a tiktok/youtube shorts script: 'i tested <span class="bracket">[TOOL]</span> for 30 days — honest review'. structure: 10-second hook with result, what i expected vs what actually happened, 3 pros, 1 honest con, final verdict, cta. under 60 seconds</div>
+        <div class="card-footer"><span class="use-case">Use for: trust-building review content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="write a pinterest pin title and description for [SAAS TOOL]. title: under 60 characters, keyword-rich, benefit-led. description: 2-3 sentences, what problem it solves, who it's for, include long-tail keywords like 'best productivity tools for creators 2025'">
+        <div class="card-top"><span class="prompt-num">#28</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write a pinterest pin title and description for <span class="bracket">[SAAS TOOL]</span>. title: under 60 characters, keyword-rich, benefit-led. description: 2-3 sentences, what problem it solves, who it's for, include long-tail keywords like 'best productivity tools for creators 2025'</div>
+        <div class="card-footer"><span class="use-case">Use for: Pinterest SEO, Gogopin Pro pipeline</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="generate a faceless ugc video concept: hands typing on a laptop keyboard, notifications popping up on screen showing completed tasks in [TOOL], the list grows and items get checked off, satisfying and clean, 8 seconds, dark mode screen glow">
+        <div class="card-top"><span class="prompt-num">#29</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate a faceless ugc video concept: hands typing on a laptop keyboard, notifications popping up on screen showing completed tasks in <span class="bracket">[TOOL]</span>, the list grows and items get checked off, satisfying and clean, 8 seconds, dark mode screen glow</div>
+        <div class="card-footer"><span class="use-case">Use for: project management SaaS content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="saas" data-text="write 3 youtube shorts hooks for a video about the best free tools for content creators. one must open with a dollar amount saved, one must challenge a common belief about needing expensive software, one must be a ranking opener like 'the #1 free tool…'">
+        <div class="card-top"><span class="prompt-num">#30</span><span class="format-tag ft-hook">Hook</span></div>
+        <div class="prompt-text">write 3 youtube shorts hooks for a video about the best free tools for content creators. one must open with a dollar amount saved, one must challenge a common belief about needing expensive software, one must be a ranking opener like 'the #1 free tool…'</div>
+        <div class="card-footer"><span class="use-case">Use for: YouTube Shorts, free tool roundup content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== NICHE 4: INCOME ==================== -->
+  <div class="niche-section niche-income" data-niche="income">
+    <div class="niche-header">
+      <div class="niche-icon">💸</div>
+      <div>
+        <h2>Affiliate & Income Content</h2>
+        <div class="niche-sub">High-trust passive income content that drives clicks without feeling pushy</div>
+      </div>
+      <span class="niche-count">10 prompts</span>
+    </div>
+    <div class="prompt-grid">
+
+      <div class="prompt-card" data-niche="income" data-text="write a tiktok script: 'how i made my first $[AMOUNT] online without showing my face'. structure: hook with income number, context (no followers needed), 3 steps taken (one of which includes [AFFILIATE PLATFORM]), honest note that results vary, cta to follow for more">
+        <div class="card-top"><span class="prompt-num">#31</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">write a tiktok script: 'how i made my first <span class="bracket">$[AMOUNT]</span> online without showing my face'. structure: hook with income number, context (no followers needed), 3 steps taken (one of which includes <span class="bracket">[AFFILIATE PLATFORM]</span>), honest note that results vary, cta to follow for more</div>
+        <div class="card-footer"><span class="use-case">Use for: income content, affiliate trust building</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="generate an ai image concept: a laptop on a minimalist desk, passive income dashboard visible on screen showing small earnings numbers (not exaggerated), a notebook with 'day 1' written, morning light, aspirational but realistic">
+        <div class="card-top"><span class="prompt-num">#32</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an ai image concept: a laptop on a minimalist desk, <span class="keyword">passive income dashboard</span> visible on screen showing small earnings numbers (not exaggerated), a notebook with 'day 1' written, morning light, aspirational but realistic</div>
+        <div class="card-footer"><span class="use-case">Use for: income journey content, day 1 posts</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="write 5 tiktok hooks for income or side hustle content. must include: one myth-busting hook, one 'i wish i knew this earlier' hook, one specific number hook. all under 10 words. no get-rich-quick language">
+        <div class="card-top"><span class="prompt-num">#33</span><span class="format-tag ft-hook">Hook</span></div>
+        <div class="prompt-text">write 5 tiktok hooks for income or side hustle content. must include: one myth-busting hook, one 'i wish i knew this earlier' hook, one specific number hook. all under 10 words. no get-rich-quick language</div>
+        <div class="card-footer"><span class="use-case">Use for: income niche hook testing</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="write an instagram caption for a post about affiliate marketing for beginners. format: 1-line bold hook, 4 bullet points demystifying affiliate marketing, mention [PLATFORM] as a starting point, question to drive comments ('which platform are you on?'), 5 hashtags">
+        <div class="card-top"><span class="prompt-num">#34</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write an instagram caption for a post about affiliate marketing for beginners. format: 1-line bold hook, 4 bullet points demystifying affiliate marketing, mention <span class="bracket">[PLATFORM]</span> as a starting point, question to drive comments ('which platform are you on?'), 5 hashtags</div>
+        <div class="card-footer"><span class="use-case">Use for: Mavely, Amazon Associates content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="create a full 45-second script for a 'digital products explained in 60 seconds' video. cover: what digital products are, why they're scalable, 3 examples (one being [YOUR PRODUCT]), how to sell on gumroad, cta to link in bio for free starter guide">
+        <div class="card-top"><span class="prompt-num">#35</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">create a full 45-second script for a 'digital products explained in 60 seconds' video. cover: what digital products are, why they're scalable, 3 examples (one being <span class="bracket">[YOUR PRODUCT]</span>), how to sell on gumroad, cta to link in bio for free starter guide</div>
+        <div class="card-footer"><span class="use-case">Use for: Gumroad product awareness, digital product funnel</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="write a voiceover script for a faceless video: 'apps that pay you in 2025 that actually work'. list 4 apps including [APP 1] and [APP 2]. for each: one sentence what it is, one sentence realistic earning potential, one sentence who it's good for. 45 seconds">
+        <div class="card-top"><span class="prompt-num">#36</span><span class="format-tag ft-voiceover">Voiceover</span></div>
+        <div class="prompt-text">write a voiceover script for a faceless video: 'apps that pay you in 2025 that actually work'. list 4 apps including <span class="bracket">[APP 1]</span> and <span class="bracket">[APP 2]</span>. for each: one sentence what it is, one sentence realistic earning potential, one sentence who it's good for. 45 seconds</div>
+        <div class="card-footer"><span class="use-case">Use for: earn-online content, affiliate tool roundup</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="generate an ai image: a phone screen showing a beacons or linktree link-in-bio page with multiple income links, hands holding the phone, cozy background, concept: multiple income streams visible in one place, clean and modern">
+        <div class="card-top"><span class="prompt-num">#37</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an ai image: a phone screen showing a <span class="keyword">beacons link-in-bio</span> page with multiple income links, hands holding the phone, cozy background, concept: multiple income streams visible in one place, clean and modern</div>
+        <div class="card-footer"><span class="use-case">Use for: Beacons promotion, income content visuals</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="write a pinterest pin description for a pin about 'how to start affiliate marketing with no following'. include keywords: affiliate marketing for beginners, make money online, passive income. end with: 'save this for your first step'">
+        <div class="card-top"><span class="prompt-num">#38</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write a pinterest pin description for a pin about 'how to start affiliate marketing with no following'. include keywords: <span class="keyword">affiliate marketing for beginners</span>, make money online, passive income. end with: 'save this for your first step'</div>
+        <div class="card-footer"><span class="use-case">Use for: Pinterest SEO, affiliate discovery content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="write a 30-second ugc voiceover script for [AFFILIATE PROGRAM — e.g. Mint Mobile]. hook: what i was paying before vs now. middle: 3 reasons i switched. end: 'use my link for [DEAL]'. tone: genuine, not salesy. disclaimer: results may vary">
+        <div class="card-top"><span class="prompt-num">#39</span><span class="format-tag ft-voiceover">Voiceover</span></div>
+        <div class="prompt-text">write a 30-second ugc voiceover script for <span class="bracket">[AFFILIATE PROGRAM — e.g. Mint Mobile]</span>. hook: what i was paying before vs now. middle: 3 reasons i switched. end: 'use my link for <span class="bracket">[DEAL]</span>'. tone: genuine, not salesy. disclaimer: results may vary</div>
+        <div class="card-footer"><span class="use-case">Use for: Mint Mobile, telecom affiliate content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="income" data-text="create a 3-part instagram story script for promoting a gumroad digital product [PRODUCT NAME]. story 1: the problem your audience has. story 2: tease the solution with one specific result. story 3: 'link in bio' cta with urgency. each story under 15 words of on-screen text">
+        <div class="card-top"><span class="prompt-num">#40</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">create a 3-part instagram story script for promoting a gumroad digital product <span class="bracket">[PRODUCT NAME]</span>. story 1: the problem your audience has. story 2: tease the solution with one specific result. story 3: 'link in bio' cta with urgency. each story under 15 words of on-screen text</div>
+        <div class="card-footer"><span class="use-case">Use for: Gumroad launch stories, digital product funnels</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== NICHE 5: AI TOOLS ==================== -->
+  <div class="niche-section niche-ai" data-niche="ai">
+    <div class="niche-header">
+      <div class="niche-icon">🤖</div>
+      <div>
+        <h2>AI Tools & Creator Tech</h2>
+        <div class="niche-sub">Your deepest expertise — AI annotation background makes this content uniquely credible</div>
+      </div>
+      <span class="niche-count">10 prompts</span>
+    </div>
+    <div class="prompt-grid">
+
+      <div class="prompt-card" data-niche="ai" data-text="write a 45-second tiktok voiceover script reviewing [AI TOOL]. hook: 'this ai tool does in 2 minutes what used to take me 2 hours'. structure: what you used to do manually, demo of what the tool does (described verbally), 3 features, free vs paid plan note, link in bio cta">
+        <div class="card-top"><span class="prompt-num">#41</span><span class="format-tag ft-voiceover">Voiceover</span></div>
+        <div class="prompt-text">write a 45-second tiktok voiceover script reviewing <span class="bracket">[AI TOOL]</span>. hook: 'this ai tool does in 2 minutes what used to take me 2 hours'. structure: what you used to do manually, demo of what the tool does (described verbally), 3 features, free vs paid plan note, link in bio cta</div>
+        <div class="card-footer"><span class="use-case">Use for: ElevenLabs, OpenArt, CapCut affiliate content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="generate an ai-created video concept: a futuristic but minimal workspace, split screen — left side shows a human doing slow manual work, right side shows an ai dashboard completing the same task instantly. concept: before and after ai, 8 seconds">
+        <div class="card-top"><span class="prompt-num">#42</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an ai-created video concept: a futuristic but minimal workspace, <span class="keyword">split screen</span> — left side shows a human doing slow manual work, right side shows an ai dashboard completing the same task instantly. concept: before and after ai, 8 seconds</div>
+        <div class="card-footer"><span class="use-case">Use for: AI tool comparison, productivity content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="write 5 hooks for a video about ai tools for content creators. must include: one hook using the word 'free', one hook that sounds like a confession, one hook that challenges the idea that ai content feels fake. all under 10 words">
+        <div class="card-top"><span class="prompt-num">#43</span><span class="format-tag ft-hook">Hook</span></div>
+        <div class="prompt-text">write 5 hooks for a video about <span class="keyword">ai tools for content creators</span>. must include: one hook using the word 'free', one hook that sounds like a confession, one hook that challenges the idea that ai content feels fake. all under 10 words</div>
+        <div class="card-footer"><span class="use-case">Use for: AI creator content, dispelling AI misconceptions</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="write a full 60-second script for a faceless youtube shorts video: 'my ai ugc workflow from start to post'. steps: generating avatar with openart ai, adding voiceover with elevenlabs, editing in capcut, scheduling via [SCHEDULER]. show real time estimates for each step. cta at end">
+        <div class="card-top"><span class="prompt-num">#44</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">write a full 60-second script for a faceless youtube shorts video: 'my ai ugc workflow from start to post'. steps: <span class="keyword">openart ai → elevenlabs → capcut</span> → <span class="bracket">[SCHEDULER]</span>. show real time estimates for each step. cta at end</div>
+        <div class="card-footer"><span class="use-case">Use for: Maverik Content OS Method showcase</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="create a tiktok caption for a video showing how to create a faceless ai avatar video. tone: educational and exciting. format: hook line, 4 tools mentioned (openart, elevenlabs, capcut, canva), invite people to comment if they want a free tutorial, 5 hashtags">
+        <div class="card-top"><span class="prompt-num">#45</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">create a tiktok caption for a video showing how to create a <span class="keyword">faceless ai avatar video</span>. tone: educational and exciting. format: hook line, 4 tools mentioned (openart, elevenlabs, capcut, canva), invite people to comment if they want a free tutorial, 5 hashtags</div>
+        <div class="card-footer"><span class="use-case">Use for: awareness building, comment farming for reach</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="generate an ai image: a glowing laptop screen in a dark minimal room, the screen shows an ai image generation interface mid-render, soft blue/purple ambient light, no human visible, cinematic, concept: 'creating content at 2am with AI'">
+        <div class="card-top"><span class="prompt-num">#46</span><span class="format-tag ft-video">Video</span></div>
+        <div class="prompt-text">generate an ai image: a glowing laptop screen in a dark minimal room, the screen shows an <span class="keyword">ai image generation interface</span> mid-render, soft blue/purple ambient light, no human visible, cinematic, concept: 'creating content at 2am with AI'</div>
+        <div class="card-footer"><span class="use-case">Use for: AI niche thumbnails, Pinterest AI content pins</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="write a voiceover script for a 'things i use ai for as a content creator' video. list 5 real use cases: script writing, voiceover, avatar creation, caption writing, content planning. for each: tool name and what you type in (one example prompt). 60 seconds max">
+        <div class="card-top"><span class="prompt-num">#47</span><span class="format-tag ft-voiceover">Voiceover</span></div>
+        <div class="prompt-text">write a voiceover script for a 'things i use ai for as a content creator' video. list 5 real use cases: script writing, voiceover, avatar creation, caption writing, content planning. for each: tool name and what you type in (one example prompt). 60 seconds max</div>
+        <div class="card-footer"><span class="use-case">Use for: AI workflow authority content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="write a pinterest pin description for a pin titled 'how to make ai ugc videos for free in 2025'. include keywords: ai ugc creator, faceless content creator, make money with ai. 3 sentences max. end with 'save this to start your first video today'">
+        <div class="card-top"><span class="prompt-num">#48</span><span class="format-tag ft-caption">Caption</span></div>
+        <div class="prompt-text">write a pinterest pin description for a pin titled 'how to make ai ugc videos for free in 2025'. include keywords: <span class="keyword">ai ugc creator, faceless content creator</span>, make money with ai. 3 sentences max. end with 'save this to start your first video today'</div>
+        <div class="card-footer"><span class="use-case">Use for: Pinterest SEO, Gogopin Pro AI content</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="write 3 hooks for a video exposing common myths about ai content creation. myth 1: ai content always looks fake. myth 2: you need a big budget. myth 3: platforms penalize ai content. hook for each must be punchy and under 8 words">
+        <div class="card-top"><span class="prompt-num">#49</span><span class="format-tag ft-hook">Hook</span></div>
+        <div class="prompt-text">write 3 hooks for a video exposing common myths about ai content creation. myth 1: ai content always looks fake. myth 2: you need a big budget. myth 3: platforms penalize ai content. hook for each must be punchy and under 8 words</div>
+        <div class="card-footer"><span class="use-case">Use for: trust-building, myth-busting content series</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+      <div class="prompt-card" data-niche="ai" data-text="create a full script for a 'prompt i use to write all my ugc scripts in 30 seconds' video. show the actual prompt structure (role, task, format, tone, length). demonstrate by filling it in live for [NICHE]. hook: show the output first, then reveal the prompt. 45 seconds">
+        <div class="card-top"><span class="prompt-num">#50</span><span class="format-tag ft-script">Script</span></div>
+        <div class="prompt-text">create a full script for a 'prompt i use to write all my ugc scripts in 30 seconds' video. show the actual prompt structure (role, task, format, tone, length). demonstrate by filling it in live for <span class="bracket">[NICHE]</span>. hook: show the output first, then reveal the prompt. 45 seconds</div>
+        <div class="card-footer"><span class="use-case">Use for: meta-content, Maverik Prompt Lab promo</span><button class="copy-btn" onclick="copyPrompt(this)">Copy</button></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>The Maverik Prompt Lab</strong> · 50 Prompts · Built for @theugcmaverik · Part of the Maverik Content OS Method
+</div>
+
+<script>
+function filterNiche(niche, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.prompt-card').forEach(card => {
+    if (niche === 'all' || card.dataset.niche === niche) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  document.querySelectorAll('.niche-section').forEach(sec => {
+    if (niche === 'all' || sec.dataset.niche === niche) {
+      sec.style.display = '';
+    } else {
+      sec.style.display = 'none';
+    }
+  });
+  checkEmpty();
+}
+
+function searchPrompts(q) {
+  const query = q.toLowerCase().trim();
+  document.querySelectorAll('.prompt-card').forEach(card => {
+    const text = card.dataset.text.toLowerCase();
+    const format = card.querySelector('.format-tag').textContent.toLowerCase();
+    const useCase = card.querySelector('.use-case').textContent.toLowerCase();
+    if (!query || text.includes(query) || format.includes(query) || useCase.includes(query)) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  document.querySelectorAll('.niche-section').forEach(sec => {
+    sec.style.display = '';
+    const visibleCards = sec.querySelectorAll('.prompt-card:not(.hidden)');
+    if (visibleCards.length === 0) sec.style.display = 'none';
+  });
+  checkEmpty();
+}
+
+function checkEmpty() {
+  const visible = document.querySelectorAll('.prompt-card:not(.hidden)').length;
+  document.getElementById('emptyState').classList.toggle('show', visible === 0);
+}
+
+function copyPrompt(btn) {
+  const card = btn.closest('.prompt-card');
+  const text = card.dataset.text;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
